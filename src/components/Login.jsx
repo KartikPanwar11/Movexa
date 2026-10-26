@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
 import {checkValidData} from "../utils/Validate"
@@ -6,6 +6,21 @@ import {checkValidData} from "../utils/Validate"
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null)
+
+  const email = useRef(null);
+  const password = useRef(null);
+
+
+  const handleBtnClick = () =>{
+    // console.log(email.current.value)
+    // console.log(password.current.value)
+  const message = checkValidData(email.current.value,
+                  password.current.value);
+  
+  setErrorMsg(message);
+  //  console.log(msg)
+  }
 
   const switchMode = () => {
     if (isTransitioning) return;
@@ -39,7 +54,9 @@ const Login = () => {
           />
         </div>
         <div className={`flex min-h-screen items-center justify-center px-6 py-28 transition-[opacity,transform] duration-500 ease-out sm:px-12 lg:px-16 ${isSignUp ? "lg:order-1" : ""} ${isTransitioning ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"}`}>
-          <form className="w-full max-w-[380px] space-y-6" onSubmit={(event) => event.preventDefault()}>
+          <form className="w-full max-w-[380px] space-y-6" 
+          onSubmit={(event) => event.preventDefault()}
+          >
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">
                 {isSignUp ? "Join Movexa" : "Welcome to Movexa"}
@@ -65,11 +82,13 @@ const Login = () => {
                 className="w-full rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-zinc-500 hover:border-white/20 focus:border-red-500 focus:bg-white/[0.08] focus:ring-4 focus:ring-red-500/10"
                 type="email"
                 placeholder="Email"
+                ref={email}
               />
               <input
                 className="w-full rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-zinc-500 hover:border-white/20 focus:border-red-500 focus:bg-white/[0.08] focus:ring-4 focus:ring-red-500/10"
                 type="password"
                 placeholder="Password"
+                ref={password}
               />
               {isSignUp && (
                 <input
@@ -78,8 +97,11 @@ const Login = () => {
                   placeholder="Confirm password"
                 />
               )}
+                <p className="text-sm leading-6 text-red-500">{errorMsg}</p>
             </div>
-            <button className="w-full rounded-lg bg-red-600 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/20">
+            <button className="w-full rounded-lg bg-red-600 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/20"
+            onClick = {handleBtnClick}
+            >
               {isSignUp ? "Create account" : "Sign-In"}
             </button>
             <p className="text-center text-xs text-zinc-500">
