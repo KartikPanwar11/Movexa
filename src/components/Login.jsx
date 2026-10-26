@@ -2,6 +2,9 @@ import { useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
 import {checkValidData} from "../utils/Validate"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../utils/Firebase'
+
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -20,6 +23,37 @@ const Login = () => {
   
   setErrorMsg(message);
   //  console.log(msg)
+    if(message) return;
+    if(isSignUp){
+      //signup logic
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        // console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMsg(errorCode+ "-" +errorMessage)
+      });
+    }else{
+      //signin logic
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMsg(errorCode+ "-" +errorMessage)
+      });
+    }
+
   }
 
   const switchMode = () => {
