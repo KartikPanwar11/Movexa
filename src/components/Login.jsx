@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
+import {checkValidData} from "../utils/Validate"
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -17,7 +18,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#08090b]">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#08090b]">
       <Header />
       <div className={`grid min-h-screen ${isSignUp ? "lg:grid-cols-[0.9fr_1.1fr]" : "lg:grid-cols-[1.1fr_0.9fr]"}`}>
         <div className={`relative hidden min-h-screen overflow-hidden lg:block ${isSignUp ? "lg:order-2" : ""}`}>
