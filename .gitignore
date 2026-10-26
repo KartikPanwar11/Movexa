@@ -28,7 +28,7 @@ build/
 
 
 .firebase/
-
+src/utils/Firebase.js
 
 .env
 .env.*
