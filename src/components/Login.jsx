@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
-import {checkValidData} from "../utils/Validate"
+import {checkValidData} from "../utils/validate"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../utils/Firebase'
+import {auth} from '../utils/firebase'
 
 
 const Login = () => {
