@@ -5,6 +5,9 @@ import {checkValidData} from "../utils/validate"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import {auth} from '../utils/firebase'
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {addUser} from "../utils/userSlice";
+
 
 
 const Login = () => {
@@ -12,6 +15,7 @@ const Login = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const name = useRef(null);
   const email = useRef(null);
@@ -39,18 +43,19 @@ const Login = () => {
           displayName: name.current.value,
                       photoURL: "https://avatars.githubusercontent.com/u/216164954?v=4"
         }).then(() => {
-          // Profile updated!
-          return user.reload();
-        }).then(() => {
+          const {uid,email,displayName, photoURL} = auth.currentUser;
+          dispatch(
+            addUser(
+              { uid: user.uid, 
+                email: user.email, 
+                displayName: user.displayName, 
+                photoURL: user.photoURL }));
           navigate("/browse");
         }).catch((error) => {
           // An error occurred while updating the profile
           setErrorMsg(error.code + "-" + error.message);
         });
-
-
         // console.log(user)
-        
       })
       .catch((error) => {
         const errorCode = error.code;
