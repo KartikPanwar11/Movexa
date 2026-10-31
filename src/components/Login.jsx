@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
 import {checkValidData} from "../utils/validate"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import {auth} from '../utils/firebase'
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
 
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
@@ -32,7 +33,21 @@ const Login = () => {
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        navigate("/browse");
+
+        //updating profile with display name and photoURL
+        updateProfile(user, {
+          displayName: name.current.value,
+                      photoURL: "https://avatars.githubusercontent.com/u/216164954?v=4"
+        }).then(() => {
+          // Profile updated!
+          return user.reload();
+        }).then(() => {
+          navigate("/browse");
+        }).catch((error) => {
+          // An error occurred while updating the profile
+          setErrorMsg(error.code + "-" + error.message);
+        });
+
 
         // console.log(user)
         
@@ -115,6 +130,7 @@ const Login = () => {
                   className="w-full rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-zinc-500 hover:border-white/20 focus:border-red-500 focus:bg-white/[0.08] focus:ring-4 focus:ring-red-500/10"
                   type="text"
                   placeholder="Full name"
+                  ref={name}
                 />
               )}
               <input
