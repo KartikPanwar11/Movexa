@@ -3,8 +3,7 @@ import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
 import {checkValidData} from "../utils/validate"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
-import {auth} from '../utils/firebase'
-import { useNavigate } from "react-router-dom";
+import {auth} from '../utils/firebase';
 import { useDispatch } from "react-redux";
 import {addUser} from "../utils/userSlice";
 
@@ -14,7 +13,6 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null);
@@ -50,7 +48,6 @@ const Login = () => {
                 email: user.email, 
                 displayName: user.displayName, 
                 photoURL: user.photoURL }));
-          navigate("/browse");
         }).catch((error) => {
           // An error occurred while updating the profile
           setErrorMsg(error.code + "-" + error.message);
@@ -68,9 +65,6 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        navigate("/browse");
-        // console.log(user)
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
