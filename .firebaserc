@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "movexa-1101"
-  }
+  },
+  "targets": {
+    "movexa-1101": {
+      "hosting": {
+        "movexa": [
+          "movexa"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
