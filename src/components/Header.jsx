@@ -47,7 +47,7 @@ const Header = () => {
     <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-8 lg:px-14">
       <div className="shrink-0">
         <img className="h-11 w-auto sm:h-14" 
-          src={location.pathname === "/" ? logoDark : logoLight} 
+          src={logoDark} 
           alt="Movexa logo" />
       </div>
       
