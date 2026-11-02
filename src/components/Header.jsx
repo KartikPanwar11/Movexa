@@ -1,7 +1,8 @@
-import logo from "../assets/logo/movexa-dark.png";
+import logoDark from "../assets/logo/movexa-dark.png";
+import logoLight from "../assets/logo/movexa-light.png";
 import { signOut } from "firebase/auth";
 import {auth} from "../utils/firebase"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -13,6 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store)=>store.user);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSignOut = () =>{
     signOut(auth).then(() => {
@@ -38,13 +40,15 @@ const Header = () => {
     });
 
     return unsubscribe;
-  },[]);
+  }, []);
 
 
   return (
     <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-8 lg:px-14">
       <div className="shrink-0">
-        <img className="h-11 w-auto sm:h-14" src={logo} alt="Movexa logo" />
+        <img className="h-11 w-auto sm:h-14" 
+          src={location.pathname === "/" ? logoDark : logoLight} 
+          alt="Movexa logo" />
       </div>
       
       {user &&<div className="flex items-center gap-3 sm:gap-4">
