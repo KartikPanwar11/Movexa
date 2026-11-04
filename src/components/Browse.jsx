@@ -8,11 +8,11 @@ const Browse = () => {
   useNowPlayingMovies()
 
   return (
-    <>
+    <div className="min-h-screen bg-[#08090b] text-white">
       <Header/>
       <MainContainer/>
       <SecondaryContainer/>
-    </>
+    </div>
   )
 }
 
