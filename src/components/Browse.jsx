@@ -5,6 +5,7 @@ import SecondaryContainer from "./SecondaryContainer";
 import usePopularMovies from "../hooks/usePopularMovies";
 import useTopRatedMovies from "../hooks/useTopRatatedMovies";
 import useUpcommingMovies from "../hooks/useUpcommingMovies";
+import AiSearch from "./AiSearch";
 
 const Browse = () => {
 
@@ -16,6 +17,7 @@ const Browse = () => {
   return (
     <div className="min-h-screen bg-[#08090b] text-white">
       <Header/>
+      <AiSearch/>
       <MainContainer/>
       <SecondaryContainer/>
     </div>
