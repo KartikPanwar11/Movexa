@@ -6,8 +6,11 @@ import usePopularMovies from "../hooks/usePopularMovies";
 import useTopRatedMovies from "../hooks/useTopRatatedMovies";
 import useUpcommingMovies from "../hooks/useUpcommingMovies";
 import AiSearch from "./AiSearch";
+import { useSelector } from "react-redux";
 
 const Browse = () => {
+
+  const showAiSearch = useSelector(store=>store.ai.showAiSearch);
 
   useNowPlayingMovies();
   usePopularMovies();
@@ -17,9 +20,13 @@ const Browse = () => {
   return (
     <div className="min-h-screen bg-[#08090b] text-white">
       <Header/>
-      <AiSearch/>
-      <MainContainer/>
-      <SecondaryContainer/>
+      {
+        showAiSearch ? <AiSearch/> : <> 
+                                        <MainContainer/>
+                                        <SecondaryContainer/> 
+                                      </>
+      }
+      
     </div>
   )
 }

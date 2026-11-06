@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import {addUser, removeUser} from "../utils/userSlice"
 import purple from "../assets/pfp/purple.png"
+import { toggleAiSearch } from "../utils/aiSlice";
 
 const Header = () => {
 
@@ -43,7 +44,7 @@ const Header = () => {
   }, []);
 
   const handleAiSearchClick = () => {
-    
+    dispatch(toggleAiSearch());
   }
 
 
