@@ -30,3 +30,5 @@ build/
 .env
 .env.*
 !.env.example
+
+ai-search-preview.html

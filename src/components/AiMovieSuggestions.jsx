@@ -1,4 +1,3 @@
-
 const AiMovieSuggestions = () => {
   return (
     <div>
@@ -7,4 +6,4 @@ const AiMovieSuggestions = () => {
   )
 }
 
-export default AiMovieSuggestions
+export default AiMovieSuggestions; 
