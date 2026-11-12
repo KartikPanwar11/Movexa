@@ -7,10 +7,14 @@ const useUpcommingMovies = () => {
     const dispatch = useDispatch();
 
     const getUpcommingMovies = async()=>{
-        const data = await fetch('https://api.themoviedb.org/3/movie/upcoming?page=1', API_OPTIONS);
-        const jsonData = await data.json();
-        // console.log(jsonData);
-        dispatch(addUpcommingMovies(jsonData.results))
+        try {
+            const data = await fetch('https://api.themoviedb.org/3/movie/upcoming?page=1', API_OPTIONS);
+            if (!data.ok) throw new Error("TMDB error " + data.status);
+            const jsonData = await data.json();
+            dispatch(addUpcommingMovies(jsonData.results))
+        } catch (error) {
+            console.error("Upcoming movies failed:", error);
+        }
   }
 
     useEffect(()=>{

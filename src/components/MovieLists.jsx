@@ -3,10 +3,9 @@ import MovieCard from "./MovieCard";
 
 const MovieLists = ({title, movies}) => {
     
-    if (!movies?.length) return null;
-    // console.log(movies)
-
     const scrollRef = useRef(null);
+
+    if (!movies?.length) return null;
 
     const scroll = (direction) => {
       if (scrollRef.current) {

@@ -8,15 +8,18 @@ const useMovieTrailer = (movieId)=>{
     const dispatch = useDispatch();
 
         const getMovieVideo = async ()=>{
-        const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`, API_OPTIONS);
-        
-        const jsonData = await data.json();
-        // console.log(jsonData);
+        try {
+            const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`, API_OPTIONS);
+            if (!data.ok) throw new Error("TMDB error " + data.status);
+            const jsonData = await data.json();
 
-        const filterData = jsonData.results.filter(video=> video.type === "Trailer")
-        const trailer = filterData.length ? filterData[0] : jsonData.results[0]
-        // console.log(trailer);
-        dispatch(addTrailerVideo(trailer));
+            const results = jsonData.results || [];
+            const filterData = results.filter(video=> video.type === "Trailer")
+            const trailer = filterData.length ? filterData[0] : results[0]
+            dispatch(addTrailerVideo(trailer));
+        } catch (error) {
+            console.error("Trailer failed:", error);
+        }
     };
 
     useEffect(()=>{
