@@ -6,6 +6,7 @@ Movexa is a movie discovery app built with React and the TMDB API. Sign in, brow
 
 **Live demo:** https://movexa.web.app
 
+<img width="1470" height="836" alt="Screenshot 2026-11-12 at 11 18 05 PM" src="https://github.com/user-attachments/assets/48e081e7-80e1-4a0c-b151-7e17ab4b57b6" />
 
 ## Features
 
