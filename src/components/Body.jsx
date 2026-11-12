@@ -9,11 +9,13 @@ const Body = () => {
   const appRouter = createBrowserRouter([
     {
       path: "/",
-      element: <Login />
+      element: <Login />,
+      errorElement: <Error />,
     },
     {
       path: "/browse",
-      element: <Browse />
+      element: <Browse />,
+      errorElement: <Error />,
     },
     {
       path: "*",

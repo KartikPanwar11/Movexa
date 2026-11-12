@@ -27,16 +27,19 @@ const Header = () => {
     useEffect(()=>{
     const unsubscribe = 
     onAuthStateChanged(auth, async (user) => {
+
+    const onLoginPage = window.location.pathname === "/";
+
     if (user) {
       // User is signed in
       await user.reload();
       const {uid,email,displayName, photoURL} = user;
       dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL }));
-      navigate("/browse");
+      if (onLoginPage) navigate("/browse");
     } else {
       // User is signed out
       dispatch(removeUser());
-      navigate("/");
+      if (!onLoginPage) navigate("/");
       }
     });
 

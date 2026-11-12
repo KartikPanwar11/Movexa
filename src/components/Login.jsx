@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
-import {checkValidData} from "../utils/validate"
+import { checkValidData, getAuthErrorMessage } from "../utils/validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import {auth} from '../utils/firebase';
 import { useDispatch } from "react-redux";
@@ -18,17 +18,20 @@ const Login = () => {
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  const confirmPassword = useRef(null);
 
 
-  const handleBtnClick = () =>{
-    // console.log(email.current.value)
-    // console.log(password.current.value)
-  const message = checkValidData(email.current.value,
-                  password.current.value);
-  
-  setErrorMsg(message);
-  //  console.log(msg)
-    if(message) return;
+  const handleBtnClick = () => {
+    const message = checkValidData(
+      email.current.value,
+      password.current.value,
+      isSignUp,
+      name.current?.value,
+      confirmPassword.current?.value
+    );
+
+    setErrorMsg(message);
+    if (message) return;
     if(isSignUp){
       //signup logic
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
@@ -41,7 +44,6 @@ const Login = () => {
           displayName: name.current.value,
                       photoURL: "https://avatars.githubusercontent.com/u/216164954?v=4"
         }).then(() => {
-          const {uid,email,displayName, photoURL} = auth.currentUser;
           dispatch(
             addUser(
               { uid: user.uid, 
@@ -50,26 +52,19 @@ const Login = () => {
                 photoURL: user.photoURL }));
         }).catch((error) => {
           // An error occurred while updating the profile
-          setErrorMsg(error.code + "-" + error.message);
+          setErrorMsg(getAuthErrorMessage(error.code));
         });
         // console.log(user)
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMsg(errorCode+ "-" +errorMessage)
+        setErrorMsg(getAuthErrorMessage(error.code));
       });
     }else{
       //signin logic
+      // Header's onAuthStateChanged handles a successful sign-in
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-      })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMsg(errorCode+ "-" +errorMessage)
+        setErrorMsg(getAuthErrorMessage(error.code));
       });
     }
 
@@ -149,6 +144,7 @@ const Login = () => {
                   className="w-full rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-zinc-500 hover:border-white/20 focus:border-red-500 focus:bg-white/[0.08] focus:ring-4 focus:ring-red-500/10"
                   type="password"
                   placeholder="Confirm password"
+                  ref={confirmPassword}
                 />
               )}
                 <p className="text-sm leading-6 text-red-500">{errorMsg}</p>
