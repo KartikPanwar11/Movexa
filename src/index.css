@@ -10,3 +10,17 @@ body {
   display: none;
 }
 
+/* Poster wall on the Ask AI page */
+@keyframes poster-rise {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@keyframes poster-fall {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-col { animation: none !important; }
+}

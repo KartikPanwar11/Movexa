@@ -65,7 +65,7 @@ const MovieDetail = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#08090b] via-[#08090b]/70 to-[#08090b]/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#08090b] via-transparent to-[#08090b]/60" />
 
-        <div className="relative mx-auto grid w-full max-w-6xl items-end gap-8 px-5 pb-12 pt-36 sm:px-10 md:grid-cols-[240px_minmax(0,1fr)] md:gap-11">
+        <div className="relative grid w-full items-end gap-8 px-6 pb-12 pt-36 sm:px-10 md:grid-cols-[240px_minmax(0,1fr)] md:gap-11 lg:px-14">
           {movie.poster_path && (
             <img
               className="w-36 rounded-xl shadow-[0_30px_80px_rgb(0_0_0_/_0.7)] ring-1 ring-white/10 md:w-full"
@@ -115,7 +115,7 @@ const MovieDetail = () => {
       </section>
 
       {/* Body */}
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-12 sm:px-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid gap-12 px-6 py-12 sm:px-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-14">
         <main className="min-w-0 space-y-12">
           <section>
             <h2 className="mb-4 text-xl font-semibold">About the movie</h2>
@@ -132,47 +132,6 @@ const MovieDetail = () => {
             )}
           </section>
 
-          {cast.length > 0 && (
-            <section>
-              <h2 className="mb-4 text-xl font-semibold">Cast</h2>
-              <div className="flex gap-4 overflow-x-auto pb-3">
-                {cast.map((person) => (
-                  <div key={person.credit_id} className="w-32 shrink-0">
-                    <img
-                      className="mb-2 aspect-[3/4] w-full rounded-xl object-cover ring-1 ring-white/5"
-                      src={IMG_BASE_URL + "w185" + person.profile_path}
-                      alt={person.name}
-                      loading="lazy"
-                    />
-                    <p className="text-sm font-medium leading-tight">{person.name}</p>
-                    <p className="mt-0.5 text-xs leading-tight text-[#6e6e76]">{person.character}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {recommendations.length > 0 && (
-            <section>
-              <h2 className="mb-4 text-xl font-semibold">More like this</h2>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                {recommendations.map((rec) => (
-                  <Link key={rec.id} to={`/movie/${rec.id}`} className="group">
-                    <img
-                      className="mb-2 aspect-[2/3] w-full rounded-lg object-cover ring-1 ring-white/5 transition group-hover:-translate-y-1"
-                      src={IMG_BASE_URL + "w342" + rec.poster_path}
-                      alt={`${rec.title} poster`}
-                      loading="lazy"
-                    />
-                    <p className="text-sm font-medium">{rec.title}</p>
-                    <p className="text-xs text-[#6e6e76]">
-                      {rec.release_date?.slice(0, 4)} · ★ {rec.vote_average.toFixed(1)}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
         </main>
 
         <aside className="h-fit rounded-2xl border border-[#232326] bg-[#121214] p-5">
@@ -188,7 +147,51 @@ const MovieDetail = () => {
         </aside>
       </div>
 
-      <p className="mx-auto max-w-6xl border-t border-[#232326] px-5 py-6 text-xs text-[#6e6e76] sm:px-10">
+      {/* Full-width rows: the padding is inside the scroller so the row runs to the screen edges */}
+      {cast.length > 0 && (
+        <section className="pb-12">
+          <h2 className="mb-5 px-6 text-xl font-semibold sm:px-10 lg:px-14">Cast</h2>
+          {/* pt-2 leaves room for the hover lift and ring; a scrolling row clips anything above it */}
+          <div className="flex gap-5 overflow-x-auto px-6 pb-3 pt-2 sm:gap-7 sm:px-10 lg:px-14">
+            {cast.map((person) => (
+              <div key={person.credit_id} className="group w-24 shrink-0 text-center sm:w-32">
+                <img
+                  className="mx-auto mb-3 size-24 rounded-full object-cover object-[center_20%] ring-1 ring-white/10 transition group-hover:-translate-y-1 group-hover:ring-2 group-hover:ring-amber-300/60 sm:size-32"
+                  src={IMG_BASE_URL + "w185" + person.profile_path}
+                  alt={person.name}
+                  loading="lazy"
+                />
+                <p className="text-sm font-medium leading-tight">{person.name}</p>
+                <p className="mt-0.5 text-xs leading-tight text-[#6e6e76]">{person.character}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {recommendations.length > 0 && (
+        <section className="pb-12">
+          <h2 className="mb-5 px-6 text-xl font-semibold sm:px-10 lg:px-14">More like this</h2>
+          <div className="flex gap-4 overflow-x-auto px-6 pb-3 sm:px-10 lg:px-14">
+            {recommendations.map((rec) => (
+              <Link key={rec.id} to={`/movie/${rec.id}`} className="group w-36 shrink-0 pt-1 sm:w-44">
+                <img
+                  className="mb-2 aspect-[2/3] w-full rounded-lg object-cover ring-1 ring-white/5 transition group-hover:-translate-y-1"
+                  src={IMG_BASE_URL + "w342" + rec.poster_path}
+                  alt={`${rec.title} poster`}
+                  loading="lazy"
+                />
+                <p className="text-sm font-medium">{rec.title}</p>
+                <p className="text-xs text-[#6e6e76]">
+                  {rec.release_date?.slice(0, 4)} · ★ {rec.vote_average.toFixed(1)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <p className="border-t border-[#232326] px-6 py-6 text-xs text-[#6e6e76] sm:px-10 lg:px-14">
         This product uses the TMDB API but is not endorsed or certified by TMDB.
       </p>
     </div>

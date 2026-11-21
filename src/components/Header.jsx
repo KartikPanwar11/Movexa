@@ -1,7 +1,7 @@
 import logoDark from "../assets/logo/movexa-dark.png";
 import { signOut } from "firebase/auth";
 import {auth} from "../utils/firebase"
-import { useNavigate} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -13,7 +13,9 @@ import { toggleAiSearch } from "../utils/aiSlice";
 const Header = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useSelector((store)=>store.user);
+  const showAiSearch = useSelector((store) => store.ai.showAiSearch);
   const dispatch = useDispatch();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -47,17 +49,29 @@ const Header = () => {
   }, []);
 
   const handleAiSearchClick = () => {
-    dispatch(toggleAiSearch());
+    // On Browse the button opens and closes AI search
+    if (location.pathname === "/browse") {
+      dispatch(toggleAiSearch());
+      return;
+    }
+    // AI search lives on Browse, so open it and go there
+    if (!showAiSearch) dispatch(toggleAiSearch());
+    navigate("/browse");
+  }
+
+  const handleLogoClick = () => {
+    // Close AI search so the logo always lands on the home view
+    if (showAiSearch) dispatch(toggleAiSearch());
   }
 
 
   return (
     <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-8 lg:px-14">
-      <div className="shrink-0">
+      <Link to={user ? "/browse" : "/"} onClick={handleLogoClick} className="shrink-0">
         <img className="h-11 w-auto sm:h-14" 
           src={logoDark} 
-          alt="Movexa logo" />
-      </div>
+          alt="Movexa home" />
+      </Link>
       
       {user &&<div className="flex items-center gap-3 sm:gap-4">
         <button
