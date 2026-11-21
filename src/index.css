@@ -21,6 +21,13 @@ body {
   to { transform: translateY(0); }
 }
 
+/* Poster wall on the sign in page */
+@keyframes poster-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .poster-col { animation: none !important; }
+  .poster-col,
+  .poster-row { animation: none !important; }
 }

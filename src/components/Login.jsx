@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import background from "../assets/backgrounds/login-collage.png";
 import { checkValidData, getAuthErrorMessage } from "../utils/validate";
@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfil
 import {auth} from '../utils/firebase';
 import { useDispatch } from "react-redux";
 import {addUser} from "../utils/userSlice";
+import { API_OPTIONS, IMG_BASE_URL } from "../utils/constants";
 
 
 
@@ -13,7 +14,23 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [posters, setPosters] = useState([]);
   const dispatch = useDispatch();
+
+  // Load popular posters for the wall. If this fails, the static collage is shown instead.
+  useEffect(() => {
+    const getPosters = async () => {
+      try {
+        const data = await fetch("https://api.themoviedb.org/3/movie/popular?page=1", API_OPTIONS);
+        if (!data.ok) throw new Error("TMDB error " + data.status);
+        const jsonData = await data.json();
+        setPosters(jsonData.results.map((m) => m.poster_path).filter(Boolean));
+      } catch (error) {
+        console.error("Login posters failed:", error);
+      }
+    };
+    getPosters();
+  }, []);
 
   const name = useRef(null);
   const email = useRef(null);
@@ -85,13 +102,17 @@ const Login = () => {
       <Header />
       <div className={`grid min-h-screen ${isSignUp ? "lg:grid-cols-[0.9fr_1.1fr]" : "lg:grid-cols-[1.1fr_0.9fr]"}`}>
         <div className={`relative hidden min-h-screen overflow-hidden lg:block ${isSignUp ? "lg:order-2" : ""}`}>
-          <img
-            className={`h-full w-full object-cover transition-[object-position,transform,opacity] duration-1000 ease-out ${
-              isTransitioning ? "scale-105 opacity-70" : "scale-100 opacity-100"
-            } ${isSignUp ? "object-right" : "object-left"}`}
-            src={background}
-            alt="Login Background"
-          />
+          {posters.length > 0 ? (
+            <PosterWall posters={posters} isSignUp={isSignUp} />
+          ) : (
+            <img
+              className={`h-full w-full object-cover transition-[object-position,transform,opacity] duration-1000 ease-out ${
+                isTransitioning ? "scale-105 opacity-70" : "scale-100 opacity-100"
+              } ${isSignUp ? "object-right" : "object-left"}`}
+              src={background}
+              alt="Login Background"
+            />
+          )}
           <div className="absolute inset-0 bg-black/45" />
           <div
             className={`absolute inset-y-0 w-1/3 ${
@@ -170,5 +191,56 @@ const Login = () => {
     </div>
   )
 }
+
+// Rows of posters on a wall tilted toward the form. Switching to sign up turns the wall and reverses the rows.
+const PosterWall = ({ posters, isSignUp }) => {
+  // 5 rows, each starting at a different poster so the rows don't line up
+  const rows = Array.from({ length: 5 }, (_, i) => {
+    const start = (i * 4) % posters.length;
+    const row = [...posters.slice(start), ...posters.slice(0, start)];
+    return [...row, ...row]; // shown twice so the scroll loops without a gap
+  });
+
+  return (
+    <div className="absolute inset-0 [perspective:1100px]" aria-hidden="true">
+      <div
+        className="absolute -inset-x-[40%] -inset-y-[30%] flex flex-col justify-center gap-[18px] transition-transform duration-[900ms] ease-[cubic-bezier(.6,0,.2,1)]"
+        style={{
+          transform: isSignUp
+            ? "rotateY(22deg) rotateX(8deg) rotateZ(4deg)"
+            : "rotateY(-22deg) rotateX(8deg) rotateZ(-4deg)",
+          transformOrigin: isSignUp ? "0% 50%" : "100% 50%",
+        }}
+      >
+        {rows.map((row, i) => {
+          const goesLeft = (i % 2 === 0) !== isSignUp;
+          return (
+            <div
+              key={i}
+              className="poster-row flex w-max gap-[18px]"
+              style={{
+                animationName: "poster-slide",
+                animationDuration: `${i % 2 ? 85 : 70}s`,
+                animationTimingFunction: "linear",
+                animationIterationCount: "infinite",
+                animationDirection: goesLeft ? "normal" : "reverse",
+                animationDelay: `-${i * 11}s`,
+              }}
+            >
+              {row.map((path, j) => (
+                <img
+                  key={j}
+                  src={IMG_BASE_URL + "w342" + path}
+                  alt=""
+                  className="aspect-[2/3] w-[170px] rounded-xl object-cover shadow-[0_14px_34px_rgb(0_0_0_/_0.55)]"
+                />
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 export default Login

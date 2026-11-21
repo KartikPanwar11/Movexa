@@ -159,7 +159,10 @@ const PosterWall = ({ paused }) => {
             key={i}
             className={`poster-col flex-col gap-3.5 ${i >= 4 ? "hidden md:flex" : "flex"}`}
             style={{
-              animation: `${i % 2 ? "poster-fall" : "poster-rise"} ${60 + (i % 3) * 10}s linear infinite`,
+              animationName: i % 2 ? "poster-fall" : "poster-rise",
+              animationDuration: `${60 + (i % 3) * 10}s`,
+              animationTimingFunction: "linear",
+              animationIterationCount: "infinite",
               animationDelay: `-${i * 9}s`,
               animationPlayState: paused ? "paused" : "running",
             }}
