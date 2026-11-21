@@ -7,3 +7,6 @@ export const API_OPTIONS = {
 };
 
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w200"
+
+// Add a size and path, e.g. IMG_BASE_URL + "w1280" + backdrop_path
+export const IMG_BASE_URL = "https://image.tmdb.org/t/p/"

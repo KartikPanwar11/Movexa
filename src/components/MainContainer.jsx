@@ -16,7 +16,7 @@ const MainContainer = () => {
 
   return (
     <div className="relative isolate min-h-[min(86vh,58rem)] overflow-hidden bg-zinc-950">
-        <VideoTitle title={original_title} overview={overview}/>
+        <VideoTitle title={original_title} overview={overview} movieId={id}/>
         <VideoBg movieId={id}/>
 
     </div>
