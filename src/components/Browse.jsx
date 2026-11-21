@@ -7,6 +7,7 @@ import useTopRatedMovies from "../hooks/useTopRatatedMovies";
 import useUpcommingMovies from "../hooks/useUpcommingMovies";
 import AiSearchPage from "./AiSearchPage";
 import { useSelector } from "react-redux";
+import Footer from "./Footer";
 
 const Browse = () => {
 
@@ -26,7 +27,7 @@ const Browse = () => {
                                         <SecondaryContainer/> 
                                       </>
       }
-      
+      <Footer/>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 import useMovieDetails from "../hooks/useMovieDetails";
 import { IMG_BASE_URL } from "../utils/constants";
 
@@ -191,9 +192,7 @@ const MovieDetail = () => {
         </section>
       )}
 
-      <p className="border-t border-[#232326] px-6 py-6 text-xs text-[#6e6e76] sm:px-10 lg:px-14">
-        This product uses the TMDB API but is not endorsed or certified by TMDB.
-      </p>
+      <Footer />
     </div>
   );
 };
