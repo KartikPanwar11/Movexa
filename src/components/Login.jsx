@@ -194,8 +194,9 @@ const Login = () => {
 
 // Rows of posters on a wall tilted toward the form. Switching to sign up turns the wall and reverses the rows.
 const PosterWall = ({ posters, isSignUp }) => {
-  // 5 rows, each starting at a different poster so the rows don't line up
-  const rows = Array.from({ length: 5 }, (_, i) => {
+  // 7 rows, each starting at a different poster so the rows don't line up.
+
+  const rows = Array.from({ length: 7 }, (_, i) => {
     const start = (i * 4) % posters.length;
     const row = [...posters.slice(start), ...posters.slice(0, start)];
     return [...row, ...row]; // shown twice so the scroll loops without a gap
@@ -232,7 +233,7 @@ const PosterWall = ({ posters, isSignUp }) => {
                   key={j}
                   src={IMG_BASE_URL + "w342" + path}
                   alt=""
-                  className="aspect-[2/3] w-[170px] rounded-xl object-cover shadow-[0_14px_34px_rgb(0_0_0_/_0.55)]"
+                  className="aspect-[2/3] w-[clamp(150px,13vh,260px)] rounded-xl object-cover shadow-[0_14px_34px_rgb(0_0_0_/_0.55)]"
                 />
               ))}
             </div>

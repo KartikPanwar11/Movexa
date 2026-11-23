@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import {addUser, removeUser} from "../utils/userSlice"
 import purple from "../assets/pfp/purple.png"
 import { toggleAiSearch } from "../utils/aiSlice";
+import HeaderSearch from "./HeaderSearch";
 
 const Header = () => {
 
@@ -74,6 +75,7 @@ const Header = () => {
       </Link>
       
       {user &&<div className="flex items-center gap-3 sm:gap-4">
+        <HeaderSearch />
         <button
           className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white shadow-[inset_0_1px_1px_rgb(255_255_255_/_0.45),0_8px_30px_rgb(0_0_0_/_0.25)] backdrop-blur-xl transition duration-300 hover:border-white/60 hover:bg-white/25 hover:shadow-[inset_0_1px_1px_rgb(255_255_255_/_0.65),0_10px_35px_rgb(0_0_0_/_0.35)] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-zinc-900 sm:px-4 sm:py-2.5 sm:text-sm"
         onClick={handleAiSearchClick}
