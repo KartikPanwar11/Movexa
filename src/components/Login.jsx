@@ -194,9 +194,8 @@ const Login = () => {
 
 // Rows of posters on a wall tilted toward the form. Switching to sign up turns the wall and reverses the rows.
 const PosterWall = ({ posters, isSignUp }) => {
-  // 7 rows, each starting at a different poster so the rows don't line up.
 
-  const rows = Array.from({ length: 7 }, (_, i) => {
+  const rows = Array.from({ length: 11 }, (_, i) => {
     const start = (i * 4) % posters.length;
     const row = [...posters.slice(start), ...posters.slice(0, start)];
     return [...row, ...row]; // shown twice so the scroll loops without a gap
@@ -205,7 +204,7 @@ const PosterWall = ({ posters, isSignUp }) => {
   return (
     <div className="absolute inset-0 [perspective:1100px]" aria-hidden="true">
       <div
-        className="absolute -inset-x-[40%] -inset-y-[30%] flex flex-col justify-center gap-[18px] transition-transform duration-[900ms] ease-[cubic-bezier(.6,0,.2,1)]"
+        className="absolute -inset-x-[40%] -inset-y-[45%] flex flex-col justify-center gap-[18px] transition-transform duration-[900ms] ease-[cubic-bezier(.6,0,.2,1)]"
         style={{
           transform: isSignUp
             ? "rotateY(22deg) rotateX(8deg) rotateZ(4deg)"
@@ -233,7 +232,7 @@ const PosterWall = ({ posters, isSignUp }) => {
                   key={j}
                   src={IMG_BASE_URL + "w342" + path}
                   alt=""
-                  className="aspect-[2/3] w-[clamp(150px,13vh,260px)] rounded-xl object-cover shadow-[0_14px_34px_rgb(0_0_0_/_0.55)]"
+                  className="aspect-[2/3] w-[clamp(180px,16vh,320px)] rounded-xl object-cover shadow-[0_14px_34px_rgb(0_0_0_/_0.55)]"
                 />
               ))}
             </div>
